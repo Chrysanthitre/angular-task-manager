@@ -1,12 +1,25 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-add-task',
-  standalone: true,
-  imports: [],
   templateUrl: './add-task.component.html',
-  styleUrl: './add-task.component.css'
+  styleUrls: ['./add-task.component.css']
 })
 export class AddTaskComponent {
+  @Output() taskAdded = new EventEmitter<string>();
+  newTaskTitle = '';
 
+  addTask(): void {
+    if (this.newTaskTitle.trim()) {
+      this.taskAdded.emit(this.newTaskTitle.trim());
+      this.newTaskTitle = '';
+    }
+  }
+
+  onKeyPress(event: KeyboardEvent): void {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.addTask();
+    }
+  }
 }

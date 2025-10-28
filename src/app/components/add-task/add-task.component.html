@@ -1,1 +1,28 @@
-<p>add-task works!</p>
+<div class="card shadow-sm">
+  <div class="card-body">
+    <h5 class="card-title">➕ Add New Task</h5>
+    
+    <div class="input-group input-group-lg">
+      <input 
+        type="text" 
+        class="form-control" 
+        placeholder="What needs to be done? 🎯"
+        [(ngModel)]="newTaskTitle"
+        (keypress)="onKeyPress($event)"
+        aria-label="New task title"
+      >
+      <button 
+        class="btn btn-primary" 
+        (click)="addTask()"
+        [disabled]="!newTaskTitle.trim()"
+        aria-label="Add task"
+      >
+        Add Task
+      </button>
+    </div>
+    
+    <small class="text-muted mt-2 d-block">
+      💡 Press Enter to quickly add tasks
+    </small>
+  </div>
+</div>
