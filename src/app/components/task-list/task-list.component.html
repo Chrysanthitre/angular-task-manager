@@ -1,1 +1,64 @@
-<p>task-list works!</p>
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title d-flex justify-content-between align-items-center">
+            <span>📝 My Tasks</span>
+            <span class="badge bg-primary rounded-pill">{{tasks.length}}</span>
+        </h5>
+
+        <!-- Empty State -->
+        <div *ngIf="tasks.length === 0" class="text-center py-5">
+            <div class="text-muted mb-3">
+                <i class="fas fa-tasks fa-3x"></i>
+            </div>
+            <p class="text-muted">No tasks yet. Add your first task above! 🚀</p>
+        </div>
+
+        <!-- Tasks List -->
+        <div class="list-group">
+            <div *ngFor="let task of tasks"
+                class="list-group-item d-flex justify-content-between align-items-start p-3 mb-2 rounded border"
+                [class]="getPriorityClass(task.priority || 'medium')" [class.opacity-50]="task.completed">
+                <!-- Checkbox & Task Info -->
+                <div class="d-flex align-items-center flex-grow-1">
+                    <input class="form-check-input me-3" type="checkbox" [id]="'task-' + task.id"
+                        [checked]="task.completed" (change)="onToggleTask(task.id)" style="transform: scale(1.2);">
+
+                    <div class="flex-grow-1">
+                        <label [for]="'task-' + task.id" class="form-check-label h6 mb-1"
+                            [class.text-decoration-line-through]="task.completed" [class.text-muted]="task.completed">
+                            {{ task.title }}
+                        </label>
+                        <div class="d-flex align-items-center gap-2">
+                            <small class="text-muted">
+                                {{ task.createdAt | date:'MMM d, yyyy' }}
+                            </small>
+
+                            <!-- Priority Badge -->
+                            <span class="badge" [class.bg-danger]="task.priority === 'high'"
+                                [class.bg-warning]="task.priority === 'medium'"
+                                [class.bg-info]="task.priority === 'low'">
+                                {{ getPriorityText(task.priority || 'medium') }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Actions -->
+                <div class="d-flex align-items-center gap-2 ms-3">
+                    <!-- Priority Selector -->
+                    <select class="form-select form-select-sm" style="width: auto;" [value]="task.priority || 'medium'"
+                        (change)="onPriorityChange(task.id, $event)" [disabled]="task.completed">
+                        <option value="low">Low</option>
+                        <option value="medium">Medium</option>
+                        <option value="high">High</option>
+                    </select>
+
+                    <!-- Delete Button -->
+                    <button class="btn btn-outline-danger btn-sm" (click)="onDeleteTask(task.id)" title="Delete task">
+                        🗑️
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
