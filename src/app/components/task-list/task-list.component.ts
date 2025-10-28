@@ -1,8 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { Task } from '../../models/task.model';
 
 @Component({
   selector: 'app-task-list',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
   templateUrl: './task-list.component.html',
   styleUrls: ['./task-list.component.css']
 })
@@ -10,7 +14,7 @@ export class TaskListComponent {
   @Input() tasks: Task[] = [];
   @Output() taskDeleted = new EventEmitter<number>();
   @Output() taskToggled = new EventEmitter<number>();
-  @Output() priorityChanged = new EventEmitter<{id: number, priority: 'low' | 'medium' | 'high'}>();
+  @Output() priorityChanged = new EventEmitter<{ id: number, priority: 'low' | 'medium' | 'high' }>();
 
   getPriorityClass(priority: string): string {
     switch (priority) {
